@@ -1,2 +1,2 @@
-# Fortran90BitMasking
-Fortran90BitMasking
+# Fortran95BitMasking
+Fortran95BitMasking
