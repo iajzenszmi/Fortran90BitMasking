@@ -1,0 +1,581 @@
+ian@ian-Latitude-3190-2-in-1:~$ gfortran bitmask.f90
+ian@ian-Latitude-3190-2-in-1:~$ gfortran bitgen.f90
+ian@ian-Latitude-3190-2-in-1:~$ gfortran bitgen.f90 -o bitgen
+ian@ian-Latitude-3190-2-in-1:~$ gfortran bitmask.f90 -o bitmask
+ian@ian-Latitude-3190-2-in-1:~$ ./bitgen
+0,1,3,4,6,7,8,9,10,11,16,19,22,30
+ian@ian-Latitude-3190-2-in-1:~$ ./bitmask
+pi = 3.14159274
+ian@ian-Latitude-3190-2-in-1:~$ cat bitgen.f90 bitmask.f90
+program bitgen
+implicit none
+real pi
+integer mask
+integer i
+pi = 4*atan(1.0)
+mask = transfer(pi,mask)
+write(*,'(*(i0:","))') pack([(i,i=0,bit_size(mask)-1)], &
+[(btest(mask,i),i=0,bit_size(mask)-1)])
+end program bitgen 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+program bitmask
+implicit none
+integer, parameter :: mask = iany(ibset(0, &
+[0,1,3,4,6,7,8,9,10,11,16,19,22,30]))
+real, parameter :: pi = transfer(mask,0.0)
+write(*,'(*(g0))') 'pi = ',pi
+end program bitmask
+ian@ian-Latitude-3190-2-in-1:~$ sloccount bitgen.f90 bitmask.f90
+Have a non-directory at the top, so creating directory top_dir
+Adding /home/ian/bitgen.f90 to top_dir
+Adding /home/ian/bitmask.f90 to top_dir
+Categorizing files.
+Finding a working MD5 command....
+Found a working MD5 command.
+Computing results.
+
+
+SLOC	Directory	SLOC-by-Language (Sorted)
+17      top_dir         f90=17
+
+
+Totals grouped by language (dominant language first):
+f90:             17 (100.00%)
+
+
+
+
+Total Physical Source Lines of Code (SLOC)                = 17
+Development Effort Estimate, Person-Years (Person-Months) = 0.00 (0.03)
+ (Basic COCOMO model, Person-Months = 2.4 * (KSLOC**1.05))
+Schedule Estimate, Years (Months)                         = 0.06 (0.69)
+ (Basic COCOMO model, Months = 2.5 * (person-months**0.38))
+Estimated Average Number of Developers (Effort/Schedule)  = 0.05
+Total Estimated Cost to Develop                           = $ 375
+ (average salary = $56,286/year, overhead = 2.40).
+SLOCCount, Copyright (C) 2001-2004 David A. Wheeler
+SLOCCount is Open Source Software/Free Software, licensed under the GNU GPL.
+SLOCCount comes with ABSOLUTELY NO WARRANTY, and you are welcome to
+redistribute it under certain conditions as specified by the GNU GPL license;
+see the documentation for details.
+Please credit this data as "generated using David A. Wheeler's 'SLOCCount'."
+ian@ian-Latitude-3190-2-in-1:~$ gfortran bitmask.f -S
+f951: Error: Cannot open file ‘bitmask.f’
+<built-in>: Fatal Error: cannot open input file: bitmask.f
+compilation terminated.
+ian@ian-Latitude-3190-2-in-1:~$ gfortran bitmask.f90 -S
+ian@ian-Latitude-3190-2-in-1:~$ gfortran bitgen.f90 -S
+ian@ian-Latitude-3190-2-in-1:~$ gfortran bitgen.s -o bitgens
+ian@ian-Latitude-3190-2-in-1:~$ gfortran bitmask.s -o bitmasks
+ian@ian-Latitude-3190-2-in-1:~$ ./bitgens
+0,1,3,4,6,7,8,9,10,11,16,19,22,30
+ian@ian-Latitude-3190-2-in-1:~$ ./bitmasks
+pi = 3.14159274
+ian@ian-Latitude-3190-2-in-1:~$ cat bitgen.s 
+	.file	"bitgen.f90"
+	.text
+	.section	.rodata
+.LC1:
+	.string	"bitgen.f90"
+.LC2:
+	.ascii	"(*(i0:\",\"))"
+	.text
+	.type	MAIN__, @function
+MAIN__:
+.LFB0:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	pushq	%rbx
+	subq	$1064, %rsp
+	.cfi_offset 3, -24
+	movss	.LC0(%rip), %xmm0
+	movss	%xmm0, -24(%rbp)
+	movl	$4, %eax
+	movl	$4, %edx
+	cmpq	%rax, %rdx
+	cmovle	%rdx, %rax
+	movl	$0, %edx
+	testq	%rax, %rax
+	cmovs	%rdx, %rax
+	movq	%rax, %rsi
+	leaq	-28(%rbp), %rdx
+	leaq	-24(%rbp), %rax
+	movq	%rdx, %rcx
+	movq	%rsi, %rdx
+	movq	%rax, %rsi
+	movq	%rcx, %rdi
+	call	memcpy@PLT
+	movl	-28(%rbp), %eax
+	movl	%eax, -20(%rbp)
+	leaq	.LC1(%rip), %rax
+	movq	%rax, -552(%rbp)
+	movl	$9, -544(%rbp)
+	leaq	.LC2(%rip), %rax
+	movq	%rax, -480(%rbp)
+	movq	$11, -472(%rbp)
+	movl	$4096, -560(%rbp)
+	movl	$6, -556(%rbp)
+	leaq	-560(%rbp), %rax
+	movq	%rax, %rdi
+	call	_gfortran_st_write@PLT
+	movq	$4, -1040(%rbp)
+	movq	$0, -1056(%rbp)
+	movq	$0, -1048(%rbp)
+	movq	$4, -1056(%rbp)
+	movb	$1, -1044(%rbp)
+	movb	$1, -1043(%rbp)
+	movq	$1, -1024(%rbp)
+	movq	$32, -1016(%rbp)
+	movq	$1, -1032(%rbp)
+	leaq	A.2.1(%rip), %rax
+	movq	%rax, -1072(%rbp)
+	movq	$-1, -1064(%rbp)
+	leaq	-1072(%rbp), %rsi
+	movq	$0, -992(%rbp)
+	movq	$0, -984(%rbp)
+	movq	$4, -992(%rbp)
+	movb	$1, -980(%rbp)
+	movb	$2, -979(%rbp)
+	movq	$1, -968(%rbp)
+	movq	$0, -960(%rbp)
+	movq	$31, -952(%rbp)
+	movq	$4, -976(%rbp)
+	leaq	-816(%rbp), %rax
+	movq	%rax, -1008(%rbp)
+	movq	$0, -1000(%rbp)
+	movl	$0, %edx
+	movl	$0, %eax
+.L3:
+	cmpl	$31, %eax
+	jg	.L2
+	movl	-20(%rbp), %edi
+	movl	%eax, %ecx
+	sarl	%cl, %edi
+	movl	%edi, %ecx
+	andl	$1, %ecx
+	movl	%ecx, %edi
+	movq	-1008(%rbp), %rcx
+	testl	%edi, %edi
+	setne	%dil
+	movzbl	%dil, %edi
+	movl	%edi, (%rcx,%rdx,4)
+	addq	$1, %rdx
+	addl	$1, %eax
+	jmp	.L3
+.L2:
+	movq	$0, -928(%rbp)
+	movq	$0, -920(%rbp)
+	movq	$4, -928(%rbp)
+	movb	$1, -916(%rbp)
+	movb	$2, -915(%rbp)
+	movq	$1, -904(%rbp)
+	movq	$0, -896(%rbp)
+	movq	$31, -888(%rbp)
+	movq	$4, -912(%rbp)
+	leaq	-688(%rbp), %rax
+	movq	%rax, -944(%rbp)
+	movq	$0, -936(%rbp)
+	movl	$0, %eax
+.L5:
+	cmpq	$31, %rax
+	jg	.L4
+	movq	-1008(%rbp), %rcx
+	movq	-944(%rbp), %rdx
+	movl	(%rcx,%rax,4), %ecx
+	movl	%ecx, (%rdx,%rax,4)
+	addq	$1, %rax
+	jmp	.L5
+.L4:
+	leaq	-944(%rbp), %rdx
+	movq	$0, -864(%rbp)
+	movq	$0, -856(%rbp)
+	movq	$4, -864(%rbp)
+	movb	$1, -852(%rbp)
+	movb	$1, -851(%rbp)
+	movq	$4, -848(%rbp)
+	movq	$0, -880(%rbp)
+	movq	$0, -872(%rbp)
+	leaq	-880(%rbp), %rax
+	movl	$0, %ecx
+	movq	%rax, %rdi
+	call	_gfortran_pack@PLT
+	movl	$0, %ebx
+.L7:
+	movq	-824(%rbp), %rax
+	movq	-832(%rbp), %rdx
+	subq	%rdx, %rax
+	cmpq	%rax, %rbx
+	jg	.L6
+	movq	-880(%rbp), %rax
+	movl	(%rax,%rbx,4), %eax
+	movl	%eax, -32(%rbp)
+	leaq	-32(%rbp), %rcx
+	leaq	-560(%rbp), %rax
+	movl	$4, %edx
+	movq	%rcx, %rsi
+	movq	%rax, %rdi
+	call	_gfortran_transfer_integer_write@PLT
+	addq	$1, %rbx
+	jmp	.L7
+.L6:
+	movq	-880(%rbp), %rax
+	movq	%rax, %rdi
+	call	free@PLT
+	leaq	-560(%rbp), %rax
+	movq	%rax, %rdi
+	call	_gfortran_st_write_done@PLT
+	nop
+	movq	-8(%rbp), %rbx
+	leave
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE0:
+	.size	MAIN__, .-MAIN__
+	.globl	main
+	.type	main, @function
+main:
+.LFB1:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	subq	$16, %rsp
+	movl	%edi, -4(%rbp)
+	movq	%rsi, -16(%rbp)
+	movq	-16(%rbp), %rdx
+	movl	-4(%rbp), %eax
+	movq	%rdx, %rsi
+	movl	%eax, %edi
+	call	_gfortran_set_args@PLT
+	leaq	options.13.0(%rip), %rax
+	movq	%rax, %rsi
+	movl	$7, %edi
+	call	_gfortran_set_options@PLT
+	call	MAIN__
+	movl	$0, %eax
+	leave
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE1:
+	.size	main, .-main
+	.section	.rodata
+	.align 32
+	.type	A.2.1, @object
+	.size	A.2.1, 128
+A.2.1:
+	.long	0
+	.long	1
+	.long	2
+	.long	3
+	.long	4
+	.long	5
+	.long	6
+	.long	7
+	.long	8
+	.long	9
+	.long	10
+	.long	11
+	.long	12
+	.long	13
+	.long	14
+	.long	15
+	.long	16
+	.long	17
+	.long	18
+	.long	19
+	.long	20
+	.long	21
+	.long	22
+	.long	23
+	.long	24
+	.long	25
+	.long	26
+	.long	27
+	.long	28
+	.long	29
+	.long	30
+	.long	31
+	.align 16
+	.type	options.13.0, @object
+	.size	options.13.0, 28
+options.13.0:
+	.long	2116
+	.long	4095
+	.long	0
+	.long	1
+	.long	1
+	.long	0
+	.long	31
+	.align 4
+.LC0:
+	.long	1078530011
+	.ident	"GCC: (Ubuntu 11.3.0-1ubuntu1~22.04.1) 11.3.0"
+	.section	.note.GNU-stack,"",@progbits
+ian@ian-Latitude-3190-2-in-1:~$ ls bit*
+bitgen    bitgen.f90  bitgens  bitmask.f90  bitmasks
+bitgen.f  bitgen.s    bitmask  bitmask.s
+ian@ian-Latitude-3190-2-in-1:~$ cat bitmask.s
+	.file	"bitmask.f90"
+	.text
+	.section	.rodata
+.LC0:
+	.string	"bitmask.f90"
+.LC1:
+	.ascii	"(*(g0))"
+.LC2:
+	.ascii	"pi = "
+	.align 4
+.LC3:
+	.long	1078530011
+	.text
+	.type	MAIN__, @function
+MAIN__:
+.LFB0:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	subq	$528, %rsp
+	leaq	.LC0(%rip), %rax
+	movq	%rax, -520(%rbp)
+	movl	$96, -512(%rbp)
+	leaq	.LC1(%rip), %rax
+	movq	%rax, -448(%rbp)
+	movq	$7, -440(%rbp)
+	movl	$4096, -528(%rbp)
+	movl	$6, -524(%rbp)
+	leaq	-528(%rbp), %rax
+	movq	%rax, %rdi
+	call	_gfortran_st_write@PLT
+	leaq	-528(%rbp), %rax
+	movl	$5, %edx
+	leaq	.LC2(%rip), %rcx
+	movq	%rcx, %rsi
+	movq	%rax, %rdi
+	call	_gfortran_transfer_character_write@PLT
+	leaq	-528(%rbp), %rax
+	movl	$4, %edx
+	leaq	.LC3(%rip), %rcx
+	movq	%rcx, %rsi
+	movq	%rax, %rdi
+	call	_gfortran_transfer_real_write@PLT
+	leaq	-528(%rbp), %rax
+	movq	%rax, %rdi
+	call	_gfortran_st_write_done@PLT
+	nop
+	leave
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE0:
+	.size	MAIN__, .-MAIN__
+	.globl	main
+	.type	main, @function
+main:
+.LFB1:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	subq	$16, %rsp
+	movl	%edi, -4(%rbp)
+	movq	%rsi, -16(%rbp)
+	movq	-16(%rbp), %rdx
+	movl	-4(%rbp), %eax
+	movq	%rdx, %rsi
+	movl	%eax, %edi
+	call	_gfortran_set_args@PLT
+	leaq	options.1.0(%rip), %rax
+	movq	%rax, %rsi
+	movl	$7, %edi
+	call	_gfortran_set_options@PLT
+	call	MAIN__
+	movl	$0, %eax
+	leave
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE1:
+	.size	main, .-main
+	.section	.rodata
+	.align 16
+	.type	options.1.0, @object
+	.size	options.1.0, 28
+options.1.0:
+	.long	2116
+	.long	4095
+	.long	0
+	.long	1
+	.long	1
+	.long	0
+	.long	31
+	.ident	"GCC: (Ubuntu 11.3.0-1ubuntu1~22.04.1) 11.3.0"
+	.section	.note.GNU-stack,"",@progbits
+ian@ian-Latitude-3190-2-in-1:~$ sloccount bitgen.s
+Have a non-directory at the top, so creating directory top_dir
+Adding /home/ian/bitgen.s to top_dir
+Categorizing files.
+Finding a working MD5 command....
+Found a working MD5 command.
+Computing results.
+
+
+SLOC	Directory	SLOC-by-Language (Sorted)
+247     top_dir         asm=247
+
+
+Totals grouped by language (dominant language first):
+asm:            247 (100.00%)
+
+
+
+
+Total Physical Source Lines of Code (SLOC)                = 247
+Development Effort Estimate, Person-Years (Person-Months) = 0.05 (0.55)
+ (Basic COCOMO model, Person-Months = 2.4 * (KSLOC**1.05))
+Schedule Estimate, Years (Months)                         = 0.17 (2.00)
+ (Basic COCOMO model, Months = 2.5 * (person-months**0.38))
+Estimated Average Number of Developers (Effort/Schedule)  = 0.28
+Total Estimated Cost to Develop                           = $ 6,223
+ (average salary = $56,286/year, overhead = 2.40).
+SLOCCount, Copyright (C) 2001-2004 David A. Wheeler
+SLOCCount is Open Source Software/Free Software, licensed under the GNU GPL.
+SLOCCount comes with ABSOLUTELY NO WARRANTY, and you are welcome to
+redistribute it under certain conditions as specified by the GNU GPL license;
+see the documentation for details.
+Please credit this data as "generated using David A. Wheeler's 'SLOCCount'."
+ian@ian-Latitude-3190-2-in-1:~$ sloccount bitmask.s
+Have a non-directory at the top, so creating directory top_dir
+Adding /home/ian/bitmask.s to top_dir
+Categorizing files.
+Finding a working MD5 command....
+Found a working MD5 command.
+Computing results.
+
+
+SLOC	Directory	SLOC-by-Language (Sorted)
+100     top_dir         asm=100
+
+
+Totals grouped by language (dominant language first):
+asm:            100 (100.00%)
+
+
+
+
+Total Physical Source Lines of Code (SLOC)                = 100
+Development Effort Estimate, Person-Years (Person-Months) = 0.02 (0.21)
+ (Basic COCOMO model, Person-Months = 2.4 * (KSLOC**1.05))
+Schedule Estimate, Years (Months)                         = 0.12 (1.39)
+ (Basic COCOMO model, Months = 2.5 * (person-months**0.38))
+Estimated Average Number of Developers (Effort/Schedule)  = 0.15
+Total Estimated Cost to Develop                           = $ 2,408
+ (average salary = $56,286/year, overhead = 2.40).
+SLOCCount, Copyright (C) 2001-2004 David A. Wheeler
+SLOCCount is Open Source Software/Free Software, licensed under the GNU GPL.
+SLOCCount comes with ABSOLUTELY NO WARRANTY, and you are welcome to
+redistribute it under certain conditions as specified by the GNU GPL license;
+see the documentation for details.
+Please credit this data as "generated using David A. Wheeler's 'SLOCCount'."
+ian@ian-Latitude-3190-2-in-1:~$ 
